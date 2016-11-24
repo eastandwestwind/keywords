@@ -1,0 +1,17 @@
+{
+  "name": "dayfox",
+  "version": "1.0.0",
+  "description": "HackerNews Feed",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build-js": "browserify request.js -o bundle.js -v",
+    "watch-js": "watchify request.js -o bundle.js -v"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browserify": "latest",
+    "watchify": "latest"
+  }
+}
