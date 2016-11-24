@@ -22,20 +22,24 @@ callback = function(response) {
             console.log(json[i]);
             var options = {
                 host: 'hacker-news.firebaseio.com',
-                path: '/v0/item/' + json[i] + '/title.json'
+                path: '/v0/item/' + json[i] +'.json'
             };
             callback = function(response) {
-                var titles = '';
+                var story = '';
                 //another chunk of data has been recieved, so append it to `str`
                 response.on('data', function (chunk) {
-                    titles += chunk;
-                    exports.titles += chunk;
+                    story += chunk;
                 });
                 response.on('end', function () {
-                    console.log(titles);
+                    story = JSON.parse(story);
+                    console.log(story['title']);
+                    console.log(story['url']);
                     var storyDiv = document.getElementById("stories");
                     var listItem = document.createElement('li');
-                    listItem.appendChild(document.createTextNode(titles));
+                    var link = document.createElement('a');
+                    link.href = story['url'];
+                    link.innerText = story['title'];
+                    listItem.appendChild(link);
                     storyDiv.appendChild(listItem);
                 });
             };
