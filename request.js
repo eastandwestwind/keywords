@@ -17,6 +17,7 @@ callback = function(response) {
     //the whole response has been recieved, so we just print it out here
     response.on('end', function () {
         var json = JSON.parse(str);
+        var storylist = {};
         for (var i = 0; i < 10 && i < json.length; i++) {
             var post = json[i];
             console.log(json[i]);
@@ -24,25 +25,27 @@ callback = function(response) {
                 host: 'hacker-news.firebaseio.com',
                 path: '/v0/item/' + json[i] +'.json'
             };
-            callback = function(response) {
-                var story = '';
-                //another chunk of data has been recieved, so append it to `str`
-                response.on('data', function (chunk) {
-                    story += chunk;
-                });
-                response.on('end', function () {
-                    story = JSON.parse(story);
-                    console.log(story['title']);
-                    console.log(story['url']);
-                    var storyDiv = document.getElementById("stories");
-                    var listItem = document.createElement('li');
-                    var link = document.createElement('a');
-                    link.href = story['url'];
-                    link.innerText = story['title'];
-                    listItem.appendChild(link);
-                    storyDiv.appendChild(listItem);
-                });
-            };
+            callback = (function(j){
+                return function(response) {
+                    var story = '';
+                    //another chunk of data has been recieved, so append it to `str`
+                    response.on('data', function (chunk) {
+                        story += chunk;
+                    });
+                    response.on('end', function () {
+                        storylist[j] = story;
+                        console.log(storylist);
+                        story = JSON.parse(story);
+                        var storyDiv = document.getElementById("stories");
+                        var listItem = document.createElement('li');
+                        var link = document.createElement('a');
+                        link.href = story['url'];
+                        link.innerText = story['title'];
+                        listItem.appendChild(link);
+                        storyDiv.appendChild(listItem);
+                    });
+                };
+            })(i);
             https.request(options, callback).end();
         };
     });
@@ -50,3 +53,8 @@ callback = function(response) {
 
 https.request(options, callback).end();
 
+// var server = http.createServer(function(req, res) {
+//     res.writeHead(200);
+//     res.end('Hello Http');
+// });
+// server.listen(8080);

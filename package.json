@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "browserify": "latest",
-    "watchify": "latest"
+    "browserify": "13.1.1",
+    "watchify": "3.7.0"
   }
 }
