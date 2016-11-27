@@ -35,7 +35,8 @@ app.get('/',function(req, res) {
         //     }
         // res.set('Content-Type', 'text/html; charset=utf-8');
         // res.writeHead(200);
-        res.render('index',{ stories: Object.values(stories) });
+        var storyarray = Object.values(stories);
+        res.render('index',{ stories: storyarray });
     });
 });
 
