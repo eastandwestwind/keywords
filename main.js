@@ -10,7 +10,7 @@ var server = http.createServer(function(req, res) {
     story.requestStories(function(stories){
         var html = "";
             for (var s = 0; s < 10; s++) {
-                story = stories[s];
+                var story = stories[s];
                 html += '<li><a href=' +story['url']+'>'+story['title']+'</li>'
                 // var storyDiv = document.getElementById("stories");
                 // var listItem = document.createElement('li');
