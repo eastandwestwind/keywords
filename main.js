@@ -4,6 +4,7 @@
 
 var story = require('./request');
 var http = require('http');
+var port = process.env.PORT || 8080;
 
 var server = http.createServer(function(req, res) {
     story.requestStories(function(stories){
@@ -24,4 +25,4 @@ var server = http.createServer(function(req, res) {
         res.end(html);
     });
 });
-server.listen(8080);
+server.listen(port);
