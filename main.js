@@ -2,11 +2,12 @@
  * Created by Catherine on 11/19/16.
  */
 
+"use strict"
 var helmet = require('helmet')
 var express = require('express')
 var app = express()
 app.use(helmet())
-
+var assert = require('chai').assert
 var mustacheExpress = require('mustache-express');
 
 // Register '.mustache' extension with The Mustache Express

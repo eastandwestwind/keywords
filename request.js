@@ -1,6 +1,7 @@
 exports.requestStories = function(onStoryListComplete) {
-
+    "use strict"
     var https = require('https');
+    var assert = require('chai').assert;
 
 //The url we want is: 'https://hacker-news.firebaseio.com/v0/topstories.json'
     var options = {
@@ -8,7 +9,7 @@ exports.requestStories = function(onStoryListComplete) {
         path: '/v0/topstories.json'
     };
 
-    callback = function (response) {
+    var callback = function (response) {
         var str = '';
 
         //another chunk of data has been recieved, so append it to `str`
@@ -20,14 +21,29 @@ exports.requestStories = function(onStoryListComplete) {
         response.on('end', function () {
             var json = JSON.parse(str);
             var storylist = {};
-            for (var i = 0; i < 10 && i < json.length; i++) {
+
+            var jsonLength = json.length;
+
+            // Unit Test: always have > 0 stories
+            assert(jsonLength > 0, "jsonLength is 0");
+
+            // account for case where there isn't 10 stories
+            var storiesLength = 10
+            if (jsonLength < 10){
+                storiesLength = jsonLength;
+            };
+
+            // Unit Test: always have <= 10 stories
+            assert(storiesLength <= 10, "storiesLength is greater than 10");
+
+            for (var i = 0; i < storiesLength; i++) {
                 var post = json[i];
                 console.log(json[i]);
                 var options = {
                     host: 'hacker-news.firebaseio.com',
                     path: '/v0/item/' + json[i] + '.json'
                 };
-                callback = (function (j) {
+                var callback = (function (j) {
                     return function (response) {
                         var story = '';
                         //another chunk of data has been recieved, so append it to `str`
@@ -38,7 +54,7 @@ exports.requestStories = function(onStoryListComplete) {
                             storylist[j] = JSON.parse(story);
                             console.log(Object.keys(storylist).length);
                             console.log(storylist);
-                            if (10 == Object.keys(storylist).length) {
+                            if (storiesLength == Object.keys(storylist).length) {
                                 onStoryListComplete(storylist);
                             }
                         });
