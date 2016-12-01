@@ -1,3 +1,5 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
     body{
         list-style: none;
@@ -6,10 +8,22 @@
     li {
         padding-bottom: 10px;
     }
+    .red {
+        color: red;
+    }
+    .blue {
+        color: #44dbff;
+    }
+    .purple {
+        color: #8f00f2;
+    }
+    .green {
+        color: lawngreen;
+    }
 </style>
 
 {{#stories}}
-    <li><a href="{{url}}" style="font-family: 'Courier New',serif; color: lightgray; text-decoration: none">> {{title}}</li>
+    <li><a href="{{url}}" style="font-family: 'Courier New',serif; color: lightgray; text-decoration: none"><span class="green">-> </span><span class="blue">HackerFox </span><span class="purple">Git:(</span><span class="red">Master</span><span class="purple">)</span> {{title}}</li>
     <li style="font-family: 'Courier New',serif; color: lightgray; text-decoration: none"> {{{comments.text}}}</li>
     <br />
 {{/stories}}
