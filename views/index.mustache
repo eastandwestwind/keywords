@@ -3,8 +3,13 @@
         list-style: none;
         background-color: #2b2b2b;
     }
+    li {
+        padding-bottom: 10px;
+    }
 </style>
 
 {{#stories}}
     <li><a href="{{url}}" style="font-family: 'Courier New',serif; color: lightgray; text-decoration: none">> {{title}}</li>
+    <li style="font-family: 'Courier New',serif; color: lightgray; text-decoration: none"> {{{comments.text}}}</li>
+    <br />
 {{/stories}}

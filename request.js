@@ -3,7 +3,7 @@ exports.requestStories = function(onStoryListComplete) {
     var https = require('https');
     var assert = require('chai').assert;
 
-//The url we want is: 'https://hacker-news.firebaseio.com/v0/topstories.json'
+// get top story ids
     var options = {
         host: 'hacker-news.firebaseio.com',
         path: '/v0/topstories.json'
@@ -21,7 +21,7 @@ exports.requestStories = function(onStoryListComplete) {
         response.on('end', function () {
             var json = JSON.parse(str);
             var storylist = {};
-
+            // storylist["comments"] = {};
             var jsonLength = json.length;
 
             // Unit Test: always have > 0 stories
@@ -38,31 +38,73 @@ exports.requestStories = function(onStoryListComplete) {
 
             for (var i = 0; i < storiesLength; i++) {
                 var post = json[i];
-                console.log(json[i]);
+                console.log(post);
+
+                // get top stories
                 var options = {
                     host: 'hacker-news.firebaseio.com',
-                    path: '/v0/item/' + json[i] + '.json'
+                    path: '/v0/item/' + post + '.json'
                 };
                 var callback = (function (j) {
                     return function (response) {
                         var story = '';
+
                         //another chunk of data has been recieved, so append it to `str`
                         response.on('data', function (chunk) {
                             story += chunk;
                         });
                         response.on('end', function () {
                             storylist[j] = JSON.parse(story);
-                            console.log(Object.keys(storylist).length);
-                            console.log(storylist);
-                            if (storiesLength == Object.keys(storylist).length) {
-                                onStoryListComplete(storylist);
-                            }
+
+                            // grab top comment for the story if exists
+                            // method fails if no comments or if last story doesn't have comment?
+
+                            if (storylist[j]['kids']) {
+
+                                // get comments
+                                var options = {
+                                    host: 'hacker-news.firebaseio.com',
+                                    path: '/v0/item/' + storylist[j]['kids'][0] + '.json'
+                                };
+                                var callback = function (response) {
+                                    var comment = '';
+                                    response.on('data', function (chunk) {
+                                        comment += chunk;
+                                    });
+                                    response.on('end', function () {
+                                        storylist[j]["comments"] = JSON.parse(comment);
+
+                                        // check if we have all stories
+                                        if (storiesLength == Object.keys(storylist).length) {
+                                            console.log("all stories");
+                                            var commentNum = 0;
+
+                                            // loop through keys to check for comments
+                                            for (var k = 0; k < storiesLength; k++) {
+                                                if (storylist[k]["comments"]) {
+                                                    commentNum +=1;
+                                                    console.log(commentNum);
+                                                };
+                                            };
+
+                                            // check if we have as many comments as stories
+                                            if (storiesLength == commentNum){
+                                                // yay, now we send over to main.js
+                                                console.log("all comments");
+                                                onStoryListComplete(storylist);
+                                            }
+                                        };
+                                    })
+                                };
+                                https.request(options, callback).end();
+                            } else {
+                                storylist[j]["comments"] = 'none';
+                            };
                         });
                     };
                 })(i);
                 https.request(options, callback).end();
-            }
-            ;
+            };
         });
     }
     https.request(options, callback).end();
