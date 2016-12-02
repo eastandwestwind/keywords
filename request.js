@@ -94,11 +94,14 @@ exports.requestStories = function(onStoryListComplete) {
 
                                                 // loop through keys to trim each URL
                                                 for (var k = 0; k < storiesLength; k++) {
-                                                    var url = storylist[k]["url"];
-                                                    var urlNoProtocol = url.replace(/^https?\:\/\//i, "");
-                                                    var urlBase = urlNoProtocol.replace(/(\/\/[^\/]+)?\/.*/, '$1');
-                                                    storylist[k]["url"] = urlBase;
 
+                                                    // ask HN and stuff don't have URLs, so check for it
+                                                    if (storylist[k]["url"]){
+                                                        var url = storylist[k]["url"];
+                                                        var urlNoProtocol = url.replace(/^https?\:\/\//i, "");
+                                                        var urlBase = urlNoProtocol.replace(/(\/\/[^\/]+)?\/.*/, '$1');
+                                                        storylist[k]["url"] = urlBase;
+                                                    }
                                                 };
                                                 onStoryListComplete(storylist);
                                             }
