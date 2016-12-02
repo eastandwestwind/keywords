@@ -21,7 +21,6 @@ exports.requestStories = function(onStoryListComplete) {
         response.on('end', function () {
             var json = JSON.parse(str);
             var storylist = {};
-            // storylist["comments"] = {};
             var jsonLength = json.length;
 
             // Unit Test: always have > 0 stories
@@ -58,8 +57,12 @@ exports.requestStories = function(onStoryListComplete) {
 
                             // grab top comment for the story if exists
                             // method fails if no comments or if last story doesn't have comment?
+                            var commentsLength = "";
 
                             if (storylist[j]['kids']) {
+
+                                commentsLength = Object.keys(storylist[j]['kids']).length;
+                                storylist[j]["commentNum"] = commentsLength;
 
                                 // get comments
                                 var options = {
@@ -111,6 +114,7 @@ exports.requestStories = function(onStoryListComplete) {
                                 https.request(options, callback).end();
                             } else {
                                 storylist[j]["comments"] = 'none';
+                                storylist[j]["commentNum"] = 0;
                             };
                         });
                     };
