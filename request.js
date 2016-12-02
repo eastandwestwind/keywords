@@ -91,6 +91,15 @@ exports.requestStories = function(onStoryListComplete) {
                                             if (storiesLength == commentNum){
                                                 // yay, now we send over to main.js
                                                 console.log("all comments");
+
+                                                // loop through keys to trim each URL
+                                                for (var k = 0; k < storiesLength; k++) {
+                                                    var url = storylist[k]["url"];
+                                                    var urlNoProtocol = url.replace(/^https?\:\/\//i, "");
+                                                    var urlBase = urlNoProtocol.replace(/(\/\/[^\/]+)?\/.*/, '$1');
+                                                    storylist[k]["url"] = urlBase;
+
+                                                };
                                                 onStoryListComplete(storylist);
                                             }
                                         };
