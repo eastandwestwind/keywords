@@ -4,6 +4,7 @@
     body{
         list-style: none;
         background-color: #2b2b2b;
+        font-size: 14px;
     }
     li {
         padding-bottom: 10px;
@@ -12,7 +13,7 @@
         color: red;
     }
     .blue {
-        color: #44dbff;
+        color: #60e2ff;
     }
     .purple {
         color: #8f00f2;
@@ -23,7 +24,7 @@
 </style>
 
 {{#stories}}
-    <li><a href="{{url}}" style="font-family: 'Courier New',serif; color: lightgray; text-decoration: none"><span class="green">-> </span><span class="blue">HackerFox </span><span class="purple">Git:(</span><span class="red">Master</span><span class="purple">)</span> {{title}}</li>
-    <li style="font-family: 'Courier New',serif; color: lightgray; text-decoration: none"> {{{comments.text}}}</li>
+    <li><a href="{{url}}" style="font-family: 'Courier New',serif; color: #cdcdcd; text-decoration: none"><span class="green">-> </span><span class="blue">HackerFox </span><span class="purple">Git:(</span><span class="red">Master</span><span class="purple">)</span> {{title}}</li>
+    <li style="font-family: 'Courier New',serif; color: #cdcdcd; text-decoration: none"> {{{comments.text}}}</li>
     <br />
 {{/stories}}
