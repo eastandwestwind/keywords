@@ -103,7 +103,7 @@ exports.requestStories = function(onStoryListComplete) {
                                                         var url = storylist[k]["url"];
                                                         var urlNoProtocol = url.replace(/^https?\:\/\//i, "");
                                                         var urlBase = urlNoProtocol.replace(/(\/\/[^\/]+)?\/.*/, '$1');
-                                                        storylist[k]["url"] = urlBase;
+                                                        storylist[k]["urlBase"] = urlBase;
                                                     }
                                                 };
                                                 onStoryListComplete(storylist);
