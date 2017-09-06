@@ -3,27 +3,18 @@
 <style>
     body{
         list-style: none;
-        background-color: #2b2b2b;
         font-size: 14px;
     }
     li {
         padding-bottom: 10px;
     }
-    .red {
-        color: red;
-    }
-    .blue {
-        color: #60e2ff;
-    }
-    .purple {
-        color: #8f00f2;
-    }
-    .green {
-        color: lawngreen;
-    }
 </style>
 
-{{#stories}}
-    <li><a href="{{url}}" style="font-family: 'Courier New',serif; color: #cdcdcd; text-decoration: none"><span class="green">-> </span><span class="blue">{{title}} </span><span class="purple">Git:(</span><span class="red">{{urlBase}}</span><span class="purple">)</span> {{score}} points | {{commentNum}} comments</a></li>
-    <li style="font-family: 'Courier New',serif; color: #cdcdcd; text-decoration: none"> {{{comments.text}}}</li>
-{{/stories}}
+<h3>Original text</h3>
+{{#originalText}}
+    <li>{{.}}</li>
+{{/originalText}}
+<h3>punctuated text</h3>
+{{#punctuatedText}}
+    <li>{{.}}</li>
+{{/punctuatedText}}
